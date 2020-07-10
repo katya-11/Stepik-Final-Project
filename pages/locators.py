@@ -18,3 +18,11 @@ class LoginPageLocators ():
     REGISTER_FORM_CONFIRM_PW_FIELD = (By.CSS_SELECTOR, "#register_form #id_registration-password2")
     REGISTER_FORM_REGISTER_BTN = (By.CSS_SELECTOR, "#register_form [name = 'registration_submit']")
 
+class ProductPageLocators():
+    ADD_TO_CART_BUTTON = (By.CSS_SELECTOR, ".product_main [value ='Add to basket']")
+    PRODUCT_NAME = (By.CSS_SELECTOR, ".product_main h1")
+    PRODUCT_PRICE = (By.CSS_SELECTOR, ".product_main .price_color")
+    INFO_MSG_ADD_TO_CART = (By.CSS_SELECTOR, "#messages .alert-success strong")
+    INFO_MSG_CART_TOTAL = (By.CSS_SELECTOR, "#messages .alert-info")
+
+
