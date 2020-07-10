@@ -81,10 +81,11 @@ import pytest
 
 def test_guest_cant_see_product_in_basket_opened_from_product_page(driver):
     link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
-    product_page = BasketPage(driver, link)    
+    product_page = ProductPage(driver, link)
     product_page.open()
     product_page.go_to_the_cart()
-    product_page.should_be_info_msg_empty_page()
-    product_page.should_not_be_added_items()
+    basket_page = BasketPage(driver, driver.current_url)
+    basket_page.should_be_info_msg_empty_page()
+    basket_page.should_not_be_added_items()
 
     
