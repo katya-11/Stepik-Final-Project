@@ -5,6 +5,7 @@ from .locators import BasePageLocators
 import time
 import math
 
+
 class BasePage():
     def __init__(self, driver, url, timeout=10):
         self.driver = driver
