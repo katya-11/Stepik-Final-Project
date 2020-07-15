@@ -37,13 +37,14 @@ def test_register_form(driver):
     register_form = LoginPage(driver, driver.current_url)
     register_form.should_be_register_form()
 
-
+@pytest.mark.empty_basket
 def test_guest_cant_see_product_in_basket_opened_from_main_page(driver):
     link = "http://selenium1py.pythonanywhere.com/"
-    product_page = MainPage(driver, link)
-    product_page.open()
-    product_page.go_to_the_cart()
+    main_page = MainPage(driver, link)
+    main_page.open()
     basket_page = BasketPage(driver, driver.current_url)
+    basket_page.go_to_the_cart()
     basket_page.should_be_info_msg_empty_page()
     basket_page.should_not_be_added_items()
+
 
