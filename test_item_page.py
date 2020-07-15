@@ -4,7 +4,7 @@ from .pages.basket_page import BasketPage
 import pytest
 
 
-def test_guest_can_add_product_to_the_cart_few(driver):
+def test_guest_can_add_product_to_the_cart(driver):
     link = "http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209/"
     page = ProductPage(driver, link) 
     page.open()
@@ -14,6 +14,7 @@ def test_guest_can_add_product_to_the_cart_few(driver):
     page.should_be_name_in_info_message()
     page.should_be_info_message_cart()
     page.should_be_correct_price()
+
 
 @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0",
                                   "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer1",
@@ -25,7 +26,7 @@ def test_guest_can_add_product_to_the_cart_few(driver):
                                   pytest.param("http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer7", marks=pytest.mark.xfail),
                                   "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer8",
                                   "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer9"])
-def test_guest_can_add_product_to_the_cart(driver,link):
+def test_guest_can_add_product_to_the_cart_few(driver,link):
     url = f"{link}"
     page = ProductPage(driver, url) 
     page.open()
@@ -86,4 +87,30 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(driver):
     basket_page = BasketPage(driver, driver.current_url)
     basket_page.should_be_info_msg_empty_page()
     basket_page.should_not_be_added_items()
- 
+
+
+@pytest.mark.authorized_user
+class TestUserAddToBasketFromProductPage():
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, driver):
+        link = 'http://selenium1py.pythonanywhere.com/en-gb/accounts/login/'
+        page = LoginPage(driver, link)
+        page.open()
+        page.register_new_user(email='', password='')
+        page.should_be_authorized_user()
+
+    def test_guest_cant_see_success_message(self, driver):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209/"
+        page = ProductPage(driver, link)
+        page.open()
+        page.should_not_be_success_message()
+
+    def test_guest_can_add_product_to_the_cart(self, driver):
+        link = "http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209/"
+        page = ProductPage(driver, link)
+        page.open()
+        page.add_product_to_the_cart()
+        page.should_be_info_msg()
+        page.should_be_name_in_info_message()
+        page.should_be_info_message_cart()
+        page.should_be_correct_price()

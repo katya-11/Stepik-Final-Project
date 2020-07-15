@@ -1,6 +1,6 @@
 from .base_page import BasePage
 from .locators import LoginPageLocators
-
+import faker
 
 class LoginPage(BasePage):
     def should_be_login_page(self):
@@ -24,4 +24,18 @@ class LoginPage(BasePage):
         assert self.is_element_present(*LoginPageLocators.REGISTER_FORM_PW_FIELD), "No password field on register form"
         assert self.is_element_present(*LoginPageLocators.REGISTER_FORM_CONFIRM_PW_FIELD), "No confirmation pw field on register form"
         assert self.is_element_present(*LoginPageLocators.REGISTER_FORM_REGISTER_BTN), "No register button on register field"
+
+    def register_new_user(self, email, password):
+        f = faker.Faker()
+        email = f.email()
+        password = f.password()
+        email_field = self.driver.find_element(*LoginPageLocators.REGISTER_FORM_EMAIL_FIELD).send_keys(email)
+        password_field = self.driver.find_element(*LoginPageLocators.REGISTER_FORM_PW_FIELD).send_keys(password)
+        password_conf_field = self.driver.find_element(*LoginPageLocators.REGISTER_FORM_CONFIRM_PW_FIELD).send_keys(password)
+        reg_btn = self.driver.find_element(*LoginPageLocators.REGISTER_FORM_REGISTER_BTN).click()
+
+
+
+
+
 
